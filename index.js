@@ -1,16 +1,28 @@
-
 //canvas setting
 // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
 let canvas;
 let ctx;
 
-canvas = document.createElement('canvas');
-ctx = canvas.getContext('2d');
+let gameArea = {
+    canvas : document.createElement("canvas"),
+    start : function(){
+        this.canvas.width = 400; // change later maybe?
+        this.canvas.height = 700;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.interval = setInterval(updateGameArea, 20);
+    },
+    clear : function(){
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+    
+}
 
-canvas.width = 400; // change later maybe?
-canvas.height = 700;
 
-document.body.appendChild(canvas);
+
+let dx = 20;
+let dy = 20;
+
 
 //load image ...
 //maybe  https://pixelencounter.com/Api/Monsters
@@ -18,67 +30,85 @@ document.body.appendChild(canvas);
 let backgroundImage, spaceshipImage, bulletImage, enemyImage, gameOverImage;
 
 //spaceship (x,y) starting point : middle down on canvas
-let spaceshipX = canvas.width/2-32;
-let spaceshipY = canvas.height - 64;
+let spaceshipX = gameArea.canvas.width / 2 - 32;
+let spaceshipY = gameArea.canvas.height - 64;
 
 //use jpeg instead of png..
-function loadImage(){
-    backgroundImage = new Image();
-    backgroundImage.src = "images/background.jpeg"
+function loadImage() {
+  backgroundImage = new Image();
+  backgroundImage.src = "images/background.jpeg";
 
-    spaceshipImage = new Image();
-    spaceshipImage.src = 'images/spaceShip.png';
+  spaceshipImage = new Image();
+  spaceshipImage.src = "images/spaceShip.png";
 
-    bulletImage = new Image();
-    bulletImage.src = 'images/bullet.png'
+  bulletImage = new Image();
+  bulletImage.src = "images/bullet.png";
 
-    enemyImage = new Image();
-    enemyImage.src = 'images/enemyImage1.png'
+  enemyImage = new Image();
+  enemyImage.src = "images/enemyImage1.png";
 
-    gameOverImage = new Image();
-    gameOverImage.src = 'images/gameOver.jpeg'
+  gameOverImage = new Image();
+  gameOverImage.src = "images/gameOver.jpeg";
 }
 
 //rendering image
 
-function render(){
-    ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-    ctx.drawImage(spaceshipImage, spaceshipX, spaceshipY)
+function render() {
+  gameArea.context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+  gameArea.context.drawImage(spaceshipImage, spaceshipX, spaceshipY);
 }
 
-function main(){ //how often? 1 sec? 
-    render()
-    requestAnimationFrame(main);
+function main() {
+  //how often? 1 sec?
+  render();
+  requestAnimationFrame(main);
 }
 
 loadImage();
 main();
 
+//set 1 move
+
 //2d array
 //keypress spaceship move.. eventlistner...
-document.addEventListener("keydown", (event)=>{
-    if(event.key === "ArrowLeft" && spaceshipX>0) {
-        spaceshipX = spaceshipX - 20;
-    } else if (event.key === "ArrowRight" && spaceshipX <330){
-        spaceshipX = spaceshipX + 20;
-    } else if (event.key === "ArrowUp"){
-        spaceshipY = spaceshipY - 20;
-    } else if (event.key === "ArrowDown" && spaceshipY<630){
-        spaceshipY = spaceshipY + 20;
-    }
-})
-
+document.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowLeft" && spaceshipX > 0) {
+    spaceshipX = spaceshipX - dx;
+  } else if (event.key === "ArrowRight" && spaceshipX < 330) {
+    spaceshipX = spaceshipX + dx;
+  } else if (event.key === "ArrowUp") {
+    spaceshipY = spaceshipY - dy;
+  } else if (event.key === "ArrowDown" && spaceshipY < 630) {
+    spaceshipY = spaceshipY + dy;
+  }
+});
 
 //generate enemy...
-function generateEnemy(){
-    setInterval(){
-        let 
-    }
-}
+function generateEnemies() {
+  this.enemyX = Math.floor(Math.random() * 300);
+  this.enemyY = 0;
 
+  this.update = function(){
+    this.enemyY = this.enemyY + 1;
+    ctx.drawImage(enemyImage, enemyX, enemyY);
+  }
+}
+// let interval = setInterval(generateEnemy, 1500);
+let enemy;
+function updateEnemy(){
+    enemy = new generateEnemies();
+}
+updateEnemy();
+//game over
+// function gameIsOver() {
+//   if (enemyY >= 650) {
+//     // ctx.drawImage(gameOverImage,0,300);
+//     window.confirm("game over! play again?");
+//   }
+// }
+// gameIsOver();
 //score board
 //high score board .. every enemy dead add score
 //how can I store highest score ever with nick name input??
-
 
 //idea - credit : like : so I can store likes??
