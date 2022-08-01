@@ -10,7 +10,7 @@ let gameArea = {
         this.canvas.height = 700;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 20);
+        this.interval = setInterval(updateGameArea, 50);
     },
     clear : function(){
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -54,18 +54,18 @@ function loadImage() {
 //rendering image
 
 function render() {
-  gameArea.context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+  gameArea.context.drawImage(backgroundImage, 0, 0, gameArea.canvas.width, gameArea.canvas.height);
   gameArea.context.drawImage(spaceshipImage, spaceshipX, spaceshipY);
 }
 
-function main() {
-  //how often? 1 sec?
-  render();
-  requestAnimationFrame(main);
-}
+// function main() {
+//   //how often? 1 sec?
+//   render();
+//   requestAnimationFrame(main);
+// }
 
 loadImage();
-main();
+// main();
 
 //set 1 move
 
@@ -89,16 +89,25 @@ function generateEnemies() {
   this.enemyY = 0;
 
   this.update = function(){
+    render();
+    ctx = gameArea.context;
     this.enemyY = this.enemyY + 1;
-    ctx.drawImage(enemyImage, enemyX, enemyY);
+    ctx.drawImage(enemyImage,this.enemyX,this.enemyY);
   }
 }
 // let interval = setInterval(generateEnemy, 1500);
 let enemy;
-function updateEnemy(){
+function startEnemy(){
     enemy = new generateEnemies();
+    gameArea.start();
 }
-updateEnemy();
+
+startEnemy();
+
+function updateGameArea(){
+    gameArea.clear();
+    enemy.update();
+}
 //game over
 // function gameIsOver() {
 //   if (enemyY >= 650) {
