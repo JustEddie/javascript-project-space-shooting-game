@@ -95,7 +95,7 @@ class generateEnemies {
     this.enemyY = 0;
 
     this.update = function () {
-      render();
+      
       ctx = gameArea.context;
       this.enemyY = this.enemyY + 1;
       ctx.drawImage(enemyImage, this.enemyX, this.enemyY);
@@ -117,12 +117,15 @@ keepAddingEnemy();
 
 function updateGameArea() {
   gameArea.clear();
+  render();
   for (let i = 0; i < enemy.length; i++) {
     enemy[i].update();
+
   }
   for (let i = 0; i < bullet.length; i++) {
     bullet[i].update();
   }
+
 }
 
 class shootBullet {
