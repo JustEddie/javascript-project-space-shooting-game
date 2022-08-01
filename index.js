@@ -13,14 +13,15 @@ canvas.height = 700;
 document.body.appendChild(canvas);
 
 //load image ...
-
+//maybe  https://pixelencounter.com/Api/Monsters
+// later oop concepts ? object class
 let backgroundImage, spaceshipImage, bulletImage, enemyImage, gameOverImage;
 
 //spaceship (x,y) starting point : middle down on canvas
 let spaceshipX = canvas.width/2-32;
 let spaceshipY = canvas.height - 64;
 
-
+//use jpeg instead of png..
 function loadImage(){
     backgroundImage = new Image();
     backgroundImage.src = "images/background.jpeg"
@@ -45,7 +46,7 @@ function render(){
     ctx.drawImage(spaceshipImage, spaceshipX, spaceshipY)
 }
 
-function main(){
+function main(){ //how often? 1 sec? 
     render()
     requestAnimationFrame(main);
 }
@@ -53,11 +54,27 @@ function main(){
 loadImage();
 main();
 
-
+//2d array
 //keypress spaceship move.. eventlistner...
+document.addEventListener("keydown", (event)=>{
+    if(event.key === "ArrowLeft" && spaceshipX>0) {
+        spaceshipX = spaceshipX - 20;
+    } else if (event.key === "ArrowRight" && spaceshipX <330){
+        spaceshipX = spaceshipX + 20;
+    } else if (event.key === "ArrowUp"){
+        spaceshipY = spaceshipY - 20;
+    } else if (event.key === "ArrowDown" && spaceshipY<630){
+        spaceshipY = spaceshipY + 20;
+    }
+})
 
-//more enemy...
 
+//generate enemy...
+function generateEnemy(){
+    setInterval(){
+        let 
+    }
+}
 
 //score board
 //high score board .. every enemy dead add score
