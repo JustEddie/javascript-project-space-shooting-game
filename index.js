@@ -4,34 +4,27 @@ let canvas;
 let ctx;
 
 let gameArea = {
-    canvas : document.createElement("canvas"),
-    start : function(){
-        this.canvas.width = 400; // change later maybe?
-        this.canvas.height = 700;
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 50);
-    },
-    clear : function(){
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-    
-}
-
-
+  canvas: document.createElement("canvas"),
+  start: function () {
+    this.canvas.width = 400; // change later maybe?
+    this.canvas.height = 700;
+    this.context = this.canvas.getContext("2d");
+    document.body.insertBefore(this.canvas, document.body.childNodes[1]);
+    this.interval = setInterval(updateGameArea, 50);
+  },
+  clear: function () {
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  },
+};
+gameArea.start();
 
 let dx = 20;
 let dy = 20;
-
 
 //load image ...
 //maybe  https://pixelencounter.com/Api/Monsters
 // later oop concepts ? object class
 let backgroundImage, spaceshipImage, bulletImage, enemyImage, gameOverImage;
-
-//spaceship (x,y) starting point : middle down on canvas
-let spaceshipX = gameArea.canvas.width / 2 - 32;
-let spaceshipY = gameArea.canvas.height - 64;
 
 //use jpeg instead of png..
 function loadImage() {
@@ -52,9 +45,18 @@ function loadImage() {
 }
 
 //rendering image
+//spaceship (x,y) starting point : middle down on canvas
+let spaceshipX = gameArea.canvas.width / 2 - 32;
+let spaceshipY = gameArea.canvas.height - 64;
 
 function render() {
-  gameArea.context.drawImage(backgroundImage, 0, 0, gameArea.canvas.width, gameArea.canvas.height);
+  gameArea.context.drawImage(
+    backgroundImage,
+    0,
+    0,
+    gameArea.canvas.width,
+    gameArea.canvas.height
+  );
   gameArea.context.drawImage(spaceshipImage, spaceshipX, spaceshipY);
 }
 
@@ -84,30 +86,38 @@ document.addEventListener("keydown", (event) => {
 });
 
 //generate enemy...
-function generateEnemies() {
-  this.enemyX = Math.floor(Math.random() * 300);
-  this.enemyY = 0;
+class generateEnemies {
+  constructor() {
+    this.enemyX = Math.floor(Math.random() * 300);
+    this.enemyY = 0;
 
-  this.update = function(){
-    render();
-    ctx = gameArea.context;
-    this.enemyY = this.enemyY + 1;
-    ctx.drawImage(enemyImage,this.enemyX,this.enemyY);
+    this.update = function () {
+      render();
+      ctx = gameArea.context;
+      this.enemyY = this.enemyY + 1;
+      ctx.drawImage(enemyImage, this.enemyX, this.enemyY);
+    };
   }
 }
 // let interval = setInterval(generateEnemy, 1500);
-let enemy;
-function startEnemy(){
-    enemy = new generateEnemies();
-    gameArea.start();
+let enemy = [];
+let ene;
+function startEnemy() {
+
+  ene = new generateEnemies()
+  enemy.push(ene);
 }
 
-startEnemy();
-
-function updateGameArea(){
-    gameArea.clear();
-    enemy.update();
+function keepAddingEnemy() {
+  setInterval(startEnemy, 1500);
 }
+keepAddingEnemy();
+
+function updateGameArea() {
+  gameArea.clear();
+   ene.update();
+}
+
 //game over
 // function gameIsOver() {
 //   if (enemyY >= 650) {
