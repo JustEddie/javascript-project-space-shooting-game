@@ -83,6 +83,9 @@ document.addEventListener("keydown", (event) => {
   } else if (event.key === "ArrowDown" && spaceshipY < 630) {
     spaceshipY = spaceshipY + dy;
   }
+  if (event.code === "Space") {
+    startBullet();
+  }
 });
 
 //generate enemy...
@@ -101,11 +104,10 @@ class generateEnemies {
 }
 // let interval = setInterval(generateEnemy, 1500);
 let enemy = [];
-let ene;
-function startEnemy() {
 
-  ene = new generateEnemies()
-  enemy.push(ene);
+function startEnemy() {
+  const newEnemy = new generateEnemies();
+  enemy.push(newEnemy);
 }
 
 function keepAddingEnemy() {
@@ -115,8 +117,40 @@ keepAddingEnemy();
 
 function updateGameArea() {
   gameArea.clear();
-   ene.update();
+  for (let i = 0; i < enemy.length; i++) {
+    enemy[i].update();
+  }
+  for (let i = 0; i < bullet.length; i++) {
+    bullet[i].update();
+  }
 }
+
+class shootBullet {
+  constructor() {
+    this.bulletX = spaceshipX + 15;
+    this.bulletY = spaceshipY;
+
+    this.update = function () {
+      ctx = gameArea.context;
+      this.bulletY = this.bulletY - 10;
+      ctx.drawImage(bulletImage, this.bulletX, this.bulletY);
+    };
+  }
+}
+let bullet = [];
+function startBullet() {
+  const newBullet = new shootBullet();
+  bullet.push(newBullet);
+
+}
+
+//bullet shooting : change
+// function shootBullet(){
+//   let bullet;
+//   let bulletX = spaceshipX+15;
+//   let bulletY = spaceshipY;
+//   gameArea.context.drawImage(bulletImage,bulletX,bulletY);
+// }
 
 //game over
 // function gameIsOver() {
