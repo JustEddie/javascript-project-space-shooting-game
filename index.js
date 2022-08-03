@@ -98,7 +98,6 @@ class generateEnemies {
       ctx = gameArea.context;
       this.enemyY = this.enemyY + 1;
       ctx.drawImage(enemyImage, this.enemyX, this.enemyY);
-
     };
   }
 }
@@ -120,8 +119,7 @@ function updateGameArea() {
   gameArea.clear();
   render();
   for (let i = 0; i < enemies.length; i++) {
-    enemies[i].update();
-    for (let j = 0; j < bullets.length; j++){
+    for (let j = 0; j < bullets.length; j++) {
       let enemy = enemies[i];
       let bullet = bullets[j];
       if (
@@ -130,15 +128,16 @@ function updateGameArea() {
         bullet.bulletY >= enemy.enemyY &&
         bullet.bulletY <= enemy.enemyY + 64
       ) {
-        score= score +1;
-        enemies[i].clear;
+        score = score + 1;
+        enemies.splice(i, 1);
+        bullets.splice(j,1);
       }
     }
-   
+    enemies[i].update();
   }
+
   for (let i = 0; i < bullets.length; i++) {
     bullets[i].update();
-
   }
 }
 
