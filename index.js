@@ -58,6 +58,12 @@ function render() {
     gameArea.canvas.height
   );
   gameArea.context.drawImage(spaceshipImage, spaceshipX, spaceshipY);
+  function drawScore() {
+    gameArea.context.font = "16px Arial";
+    gameArea.context.fillStyle = "#0095DD";
+    gameArea.context.fillText(`Score: ${score}`, 8, 20);
+  }
+  drawScore();
 }
 
 // function main() {
@@ -109,6 +115,7 @@ function startEnemy() {
   enemies.push(enemy);
 }
 
+//if I want to make harder stages, make stage function, change setInterval number to faster, (can get it as argument)
 function keepAddingEnemy() {
   setInterval(startEnemy, 1500);
 }
@@ -123,8 +130,8 @@ function updateGameArea() {
       let enemy = enemies[i];
       let bullet = bullets[j];
       if (
-        bullet.bulletX >= enemy.enemyX &&
-        bullet.bulletX <= enemy.enemyX + 64 &&
+        bullet.bulletX >= enemy.enemyX -10&&
+        bullet.bulletX <= enemy.enemyX + 54 &&
         bullet.bulletY >= enemy.enemyY &&
         bullet.bulletY <= enemy.enemyY + 64
       ) {
@@ -159,30 +166,8 @@ function startBullet() {
   bullets.push(bullet);
 }
 
-//kill enemy + scoreboard
-// let score = 0;
-// function killEnemy() {
-//   for (let i = 0; i < enemies.length; i++) {
-//     let enemy = enemies[i];
-//     if (
-//       bullet.bulletX >= enemy.enemyX &&
-//       bullet.bulletX <= enemy.enemyX + 64 &&
-//       bullet.bulletY >= enemy.enemyY &&
-//       bullet.bulletY <= enemy.enemyY + 64
-//     ) {
-//       score++;
-//       enemies[i] = null;
-//     }
-//   }
-// }
 
-//bullet shooting : change
-// function shootBullet(){
-//   let bullet;
-//   let bulletX = spaceshipX+15;
-//   let bulletY = spaceshipY;
-//   gameArea.context.drawImage(bulletImage,bulletX,bulletY);
-// }
+
 
 //game over
 // function gameIsOver() {
