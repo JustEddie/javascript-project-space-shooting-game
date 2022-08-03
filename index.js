@@ -95,19 +95,19 @@ class generateEnemies {
     this.enemyY = 0;
 
     this.update = function () {
-      
       ctx = gameArea.context;
       this.enemyY = this.enemyY + 1;
       ctx.drawImage(enemyImage, this.enemyX, this.enemyY);
+
     };
   }
 }
 // let interval = setInterval(generateEnemy, 1500);
-let enemy = [];
-
+let enemies = [];
+let enemy;
 function startEnemy() {
-  const newEnemy = new generateEnemies();
-  enemy.push(newEnemy);
+  enemy = new generateEnemies();
+  enemies.push(enemy);
 }
 
 function keepAddingEnemy() {
@@ -115,17 +115,31 @@ function keepAddingEnemy() {
 }
 keepAddingEnemy();
 
+let score = 0;
 function updateGameArea() {
   gameArea.clear();
   render();
-  for (let i = 0; i < enemy.length; i++) {
-    enemy[i].update();
+  for (let i = 0; i < enemies.length; i++) {
+    enemies[i].update();
+    for (let j = 0; j < bullets.length; j++){
+      let enemy = enemies[i];
+      let bullet = bullets[j];
+      if (
+        bullet.bulletX >= enemy.enemyX &&
+        bullet.bulletX <= enemy.enemyX + 64 &&
+        bullet.bulletY >= enemy.enemyY &&
+        bullet.bulletY <= enemy.enemyY + 64
+      ) {
+        score= score +1;
+        enemies[i].clear;
+      }
+    }
+   
+  }
+  for (let i = 0; i < bullets.length; i++) {
+    bullets[i].update();
 
   }
-  for (let i = 0; i < bullet.length; i++) {
-    bullet[i].update();
-  }
-
 }
 
 class shootBullet {
@@ -140,12 +154,28 @@ class shootBullet {
     };
   }
 }
-let bullet = [];
+let bullets = [];
 function startBullet() {
-  const newBullet = new shootBullet();
-  bullet.push(newBullet);
-
+  const bullet = new shootBullet();
+  bullets.push(bullet);
 }
+
+//kill enemy + scoreboard
+// let score = 0;
+// function killEnemy() {
+//   for (let i = 0; i < enemies.length; i++) {
+//     let enemy = enemies[i];
+//     if (
+//       bullet.bulletX >= enemy.enemyX &&
+//       bullet.bulletX <= enemy.enemyX + 64 &&
+//       bullet.bulletY >= enemy.enemyY &&
+//       bullet.bulletY <= enemy.enemyY + 64
+//     ) {
+//       score++;
+//       enemies[i] = null;
+//     }
+//   }
+// }
 
 //bullet shooting : change
 // function shootBullet(){
@@ -168,3 +198,5 @@ function startBullet() {
 //how can I store highest score ever with nick name input??
 
 //idea - credit : like : so I can store likes??
+
+//canvas is a drawing tool so I can't just remove an object...
