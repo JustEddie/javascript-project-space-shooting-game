@@ -118,6 +118,9 @@ function startEnemy() {
 //if I want to make harder stages, make stage function, change setInterval number to faster, (can get it as argument)
 function keepAddingEnemy() {
   setInterval(startEnemy, 1500);
+  if (gameIsOver) {
+    clearInterval(startEnemy);
+  }
 }
 keepAddingEnemy();
 
@@ -130,14 +133,14 @@ function updateGameArea() {
       let enemy = enemies[i];
       let bullet = bullets[j];
       if (
-        bullet.bulletX >= enemy.enemyX -10&&
+        bullet.bulletX >= enemy.enemyX - 10 &&
         bullet.bulletX <= enemy.enemyX + 54 &&
         bullet.bulletY >= enemy.enemyY &&
         bullet.bulletY <= enemy.enemyY + 64
       ) {
         score = score + 1;
         enemies.splice(i, 1);
-        bullets.splice(j,1);
+        bullets.splice(j, 1);
       }
     }
     enemies[i].update();
@@ -145,6 +148,10 @@ function updateGameArea() {
 
   for (let i = 0; i < bullets.length; i++) {
     bullets[i].update();
+  }
+  gameIsOver();
+  if (isGameOver == true) {
+    clearInterval(gameArea.interval);
   }
 }
 
@@ -166,17 +173,28 @@ function startBullet() {
   bullets.push(bullet);
 }
 
-
-
-
+//game over : when enemy reach canvas height, when enemy reach spaceship
+//high score.. json?
+let isGameOver = false;
 //game over
-// function gameIsOver() {
-//   if (enemyY >= 650) {
-//     // ctx.drawImage(gameOverImage,0,300);
-//     window.confirm("game over! play again?");
-//   }
-// }
-// gameIsOver();
+function gameIsOver() {
+
+  for (let i = 0; i < enemies.length; i++) {
+    if (enemy.enemyY >= 650) {
+      gameArea.context.drawImage(gameOverImage, 0, 300);
+      return (isGameOver = true);
+    } else if (
+      spaceshipX >= enemy.enemyX - 10 &&
+      spaceshipX <= enemy.enemyX + 54 &&
+      spaceshipY >= enemy.enemyY &&
+      spaceshipY <= enemy.enemyY + 64
+    ) {
+      return (isGameOver = true);
+    }
+  }
+}
+gameIsOver();
+
 //score board
 //high score board .. every enemy dead add score
 //how can I store highest score ever with nick name input??
