@@ -2,7 +2,7 @@
 // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
 let canvas;
 let ctx;
-
+let isGameOver = false;
 let gameArea = {
   canvas: document.createElement("canvas"),
   start: function () {
@@ -152,6 +152,7 @@ function updateGameArea() {
   gameIsOver();
   if (isGameOver == true) {
     clearInterval(gameArea.interval);
+    gameArea.drawImage(gameOverImage,0,0);
   }
 }
 
@@ -175,25 +176,25 @@ function startBullet() {
 
 //game over : when enemy reach canvas height, when enemy reach spaceship
 //high score.. json?
-let isGameOver = false;
+
 //game over
 function gameIsOver() {
-
   for (let i = 0; i < enemies.length; i++) {
+    let enemy = enemies[i];
     if (enemy.enemyY >= 650) {
-      gameArea.context.drawImage(gameOverImage, 0, 300);
+
       return (isGameOver = true);
     } else if (
-      spaceshipX >= enemy.enemyX - 10 &&
-      spaceshipX <= enemy.enemyX + 54 &&
-      spaceshipY >= enemy.enemyY &&
-      spaceshipY <= enemy.enemyY + 64
+      spaceshipX >= enemy.enemyX -50&&
+      spaceshipX <= enemy.enemyX + 50 &&
+      spaceshipY >= enemy.enemyY -50&&
+      spaceshipY <= enemy.enemyY + 50
     ) {
       return (isGameOver = true);
     }
   }
 }
-gameIsOver();
+
 
 //score board
 //high score board .. every enemy dead add score
