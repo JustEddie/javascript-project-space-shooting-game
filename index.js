@@ -3,6 +3,8 @@
 let canvas;
 let ctx;
 let isGameOver = false;
+let score = 0;
+let highScore = score;
 let gameArea = {
   canvas: document.createElement("canvas"),
   start: function () {
@@ -43,7 +45,7 @@ function loadImage() {
   gameOverImage = new Image();
   gameOverImage.src = "images/gameOver.jpeg";
 }
-
+loadImage();
 //rendering image
 //spaceship (x,y) starting point : middle down on canvas
 let spaceshipX = gameArea.canvas.width / 2 - 32;
@@ -61,7 +63,11 @@ function render() {
   function drawScore() {
     gameArea.context.font = "16px Arial";
     gameArea.context.fillStyle = "#0095DD";
-    gameArea.context.fillText(`Score: ${score}`, 8, 20);
+    gameArea.context.fillText(
+      `Score: ${score} \n High Score : ${highScore}`,
+      8,
+      20
+    );
   }
   drawScore();
 }
@@ -72,27 +78,38 @@ function render() {
 //   requestAnimationFrame(main);
 // }
 
-loadImage();
 // main();
 
 //set 1 move
 
 //2d array
 //keypress spaceship move.. eventlistner...
-document.addEventListener("keydown", (event) => {
-  if (event.key === "ArrowLeft" && spaceshipX > 0) {
-    spaceshipX = spaceshipX - dx;
-  } else if (event.key === "ArrowRight" && spaceshipX < 330) {
-    spaceshipX = spaceshipX + dx;
-  } else if (event.key === "ArrowUp") {
-    spaceshipY = spaceshipY - dy;
-  } else if (event.key === "ArrowDown" && spaceshipY < 630) {
-    spaceshipY = spaceshipY + dy;
-  }
-  if (event.code === "Space") {
-    startBullet();
-  }
-});
+function movement() {
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft" || (event.key === "a" && spaceshipX > 0)) {
+      spaceshipX = spaceshipX - dx;
+    } else if (
+      event.key === "ArrowRight" ||
+      (event.key === "d" && spaceshipX < 330)
+    ) {
+      spaceshipX = spaceshipX + dx;
+    } else if (
+      event.key === "ArrowUp" ||
+      (event.key === "w" && spaceshipY > 0)
+    ) {
+      spaceshipY = spaceshipY - dy;
+    } else if (
+      event.key === "ArrowDown" ||
+      (event.key === "s" && spaceshipY < 630)
+    ) {
+      spaceshipY = spaceshipY + dy;
+    }
+    if (event.code === "Space") {
+      startBullet();
+    }
+  });
+}
+movement();
 
 //generate enemy...
 class generateEnemies {
@@ -117,17 +134,17 @@ function startEnemy() {
 
 //if I want to make harder stages, make stage function, change setInterval number to faster, (can get it as argument)
 function keepAddingEnemy() {
-  setInterval(startEnemy, 1500);
-  if (gameIsOver) {
+  setInterval(startEnemy, 1500 / (score + 1));
+  if (isGameOver) {
     clearInterval(startEnemy);
   }
 }
 keepAddingEnemy();
 
-let score = 0;
 function updateGameArea() {
   gameArea.clear();
   render();
+
   for (let i = 0; i < enemies.length; i++) {
     for (let j = 0; j < bullets.length; j++) {
       let enemy = enemies[i];
@@ -139,6 +156,9 @@ function updateGameArea() {
         bullet.bulletY <= enemy.enemyY + 64
       ) {
         score = score + 1;
+        if (highScore <= score) {
+          highScore = score;
+        }
         enemies.splice(i, 1);
         bullets.splice(j, 1);
       }
@@ -151,8 +171,33 @@ function updateGameArea() {
   }
   gameIsOver();
   if (isGameOver == true) {
+    gameArea.clear();
+    render();
     clearInterval(gameArea.interval);
-    gameArea.drawImage(gameOverImage,0,0);
+    gameArea.context.drawImage(gameOverImage, 0, 150, 400, 300);
+    // clearInterval(gameArea.interval);
+    replay();
+  }
+}
+// let playAgain = document.createElement("button");
+// playAgain.innerHTML = "Play Again!"
+// //if highsocre == worldHighScore : New High Score! Your Name ?, submit json
+// document.body.insertBefore(playAgain,gameArea.canvas);
+function replay() {
+  let result = confirm(`Your high score is : ${highScore} \n Play again?`);
+  if (result) {
+    score = 0;
+    isGameOver = false;
+    enemies = [];
+    bullets = [];
+    spaceshipX = gameArea.canvas.width / 2 - 32;
+    spaceshipY = gameArea.canvas.height - 64;
+    gameArea.start();
+    render();
+    movement();
+    updateGameArea(); 
+   } else {
+    document.write(`Your high score is ${highScore} \n See you again!`);
   }
 }
 
@@ -163,7 +208,7 @@ class shootBullet {
 
     this.update = function () {
       ctx = gameArea.context;
-      this.bulletY = this.bulletY - 10;
+      this.bulletY = this.bulletY - 20;
       ctx.drawImage(bulletImage, this.bulletX, this.bulletY);
     };
   }
@@ -175,6 +220,7 @@ function startBullet() {
 }
 
 //game over : when enemy reach canvas height, when enemy reach spaceship
+//show high score and game over image
 //high score.. json?
 
 //game over
@@ -182,19 +228,17 @@ function gameIsOver() {
   for (let i = 0; i < enemies.length; i++) {
     let enemy = enemies[i];
     if (enemy.enemyY >= 650) {
-
       return (isGameOver = true);
     } else if (
-      spaceshipX >= enemy.enemyX -50&&
+      spaceshipX >= enemy.enemyX - 50 &&
       spaceshipX <= enemy.enemyX + 50 &&
-      spaceshipY >= enemy.enemyY -50&&
+      spaceshipY >= enemy.enemyY - 50 &&
       spaceshipY <= enemy.enemyY + 50
     ) {
       return (isGameOver = true);
     }
   }
 }
-
 
 //score board
 //high score board .. every enemy dead add score
