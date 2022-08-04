@@ -111,7 +111,7 @@ class generateEnemies {
 
     this.update = function () {
       ctx = gameArea.context;
-      this.enemyY = this.enemyY + 5;
+      this.enemyY = this.enemyY + 0.5+0.1*(score);
       ctx.drawImage(enemyImage, 0,0,64,64,this.enemyX, this.enemyY,30,30);
     };
   }
