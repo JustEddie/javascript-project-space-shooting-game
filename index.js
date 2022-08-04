@@ -31,16 +31,16 @@ let backgroundImage, spaceshipImage, bulletImage, enemyImage, gameOverImage;
 //use jpeg instead of png..
 function loadImage() {
   backgroundImage = new Image();
-  backgroundImage.src = "images/background.jpeg";
+  backgroundImage.src = "images/spaceBackground.jpeg";
 
   spaceshipImage = new Image();
   spaceshipImage.src = "images/spaceShip.png";
 
   bulletImage = new Image();
-  bulletImage.src = "images/bullet.png";
+  bulletImage.src = "images/bullet3.png";
 
   enemyImage = new Image();
-  enemyImage.src = "images/enemyImage1.png";
+  enemyImage.src = "images/enemyImage.png";
 
   gameOverImage = new Image();
   gameOverImage.src = "images/gameOver.jpeg";
@@ -176,7 +176,7 @@ function updateGameArea() {
 // //if highsocre == worldHighScore : New High Score! Your Name ?, submit json
 // document.body.insertBefore(playAgain,gameArea.canvas);
 function replay() {
-  let result = confirm(`Your high score is : ${highScore} \n Play again?`);
+  let result = confirm(`Your high score is : ${highScore} \n Share your highest score! Play again?`);
   if (result) {
     score = 0;
 
@@ -202,7 +202,7 @@ class shootBullet {
     this.update = function () {
       ctx = gameArea.context;
       this.bulletY = this.bulletY - 25;
-      ctx.drawImage(bulletImage, this.bulletX, this.bulletY);
+      ctx.drawImage(bulletImage,0,0,64,64, this.bulletX, this.bulletY,30,30);
     };
   }
 }
@@ -252,4 +252,11 @@ function gameIsOver() {
 //     speed = 500;
 //   }
 //   return speed;
+// }
+
+//share score funciton
+// function shareScore(){
+//   let copyText = document.getElementById("shareScoreMessage");
+
+//   copyText.
 // }
