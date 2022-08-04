@@ -176,7 +176,7 @@ function updateGameArea() {
 // //if highsocre == worldHighScore : New High Score! Your Name ?, submit json
 // document.body.insertBefore(playAgain,gameArea.canvas);
 function replay() {
-  let result = confirm(`Your high score is : ${highScore} \n Share your highest score! Play again?`);
+  let result = confirm(`Your high score is : ${highScore} \n Play again?`);
   if (result) {
     score = 0;
 
@@ -190,7 +190,7 @@ function replay() {
     isGameOver = false;
     updateGameArea(); 
    } else {
-    document.write(`Your high score is ${highScore} \n See you again!`);
+    document.write(`Your highest score is ${highScore} \n See you again!`);
   }
 }
 
@@ -260,3 +260,17 @@ function gameIsOver() {
 
 //   copyText.
 // }
+function copyScore() {
+  /* Get the text field */
+  let copyText = document.getElementById("enterName");
+
+  /* Select the text field */
+  copyText.select();
+  // copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+   /* Copy the text inside the text field */
+  navigator.clipboard.writeText(`${copyText.value}'s highest score is ${highScore}`);
+
+  /* Alert the copied text */
+  alert(`Copied the text:  ${copyText.value}'s highest score is ${highScore}`);
+}
