@@ -86,22 +86,14 @@ function render() {
 //keypress spaceship move.. eventlistner...
 function movement() {
   document.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowLeft" || (event.key === "a" && spaceshipX > 0)) {
+    if ((event.key === "ArrowLeft" || event.key === "a") && spaceshipX > 0) {
       spaceshipX = spaceshipX - dx;
     } else if (
-      event.key === "ArrowRight" ||
-      (event.key === "d" && spaceshipX < 330)
-    ) {
+      (event.key === "ArrowRight" || event.key === "d") && spaceshipX < 330) {
       spaceshipX = spaceshipX + dx;
-    } else if (
-      event.key === "ArrowUp" ||
-      (event.key === "w" && spaceshipY > 0)
-    ) {
+    } else if ((event.key === "ArrowUp" ||event.key === "w") && spaceshipY > 0){
       spaceshipY = spaceshipY - dy;
-    } else if (
-      event.key === "ArrowDown" ||
-      (event.key === "s" && spaceshipY < 630)
-    ) {
+    } else if ((event.key === "ArrowDown" ||event.key === "s") && spaceshipY < 630) {
       spaceshipY = spaceshipY + dy;
     }
     if (event.code === "Space") {
@@ -114,13 +106,13 @@ movement();
 //generate enemy...
 class generateEnemies {
   constructor() {
-    this.enemyX = Math.floor(Math.random() * 300);
+    this.enemyX = Math.floor(Math.random() * 330);
     this.enemyY = 0;
 
     this.update = function () {
       ctx = gameArea.context;
-      this.enemyY = this.enemyY + 1;
-      ctx.drawImage(enemyImage, this.enemyX, this.enemyY);
+      this.enemyY = this.enemyY + 5;
+      ctx.drawImage(enemyImage, 0,0,64,64,this.enemyX, this.enemyY,30,30);
     };
   }
 }
@@ -134,7 +126,7 @@ function startEnemy() {
 
 //if I want to make harder stages, make stage function, change setInterval number to faster, (can get it as argument)
 function keepAddingEnemy() {
-  setInterval(startEnemy, 1500 / (score + 1));
+  setInterval(startEnemy, 750);
   if (isGameOver) {
     clearInterval(startEnemy);
   }
@@ -150,10 +142,10 @@ function updateGameArea() {
       let enemy = enemies[i];
       let bullet = bullets[j];
       if (
-        bullet.bulletX >= enemy.enemyX - 10 &&
-        bullet.bulletX <= enemy.enemyX + 54 &&
-        bullet.bulletY >= enemy.enemyY &&
-        bullet.bulletY <= enemy.enemyY + 64
+        bullet.bulletX >= enemy.enemyX - 32 &&
+        bullet.bulletX <= enemy.enemyX + 32 &&
+        bullet.bulletY >= enemy.enemyY -32&&
+        bullet.bulletY <= enemy.enemyY + 32
       ) {
         score = score + 1;
         if (highScore <= score) {
@@ -187,14 +179,15 @@ function replay() {
   let result = confirm(`Your high score is : ${highScore} \n Play again?`);
   if (result) {
     score = 0;
-    isGameOver = false;
+
     enemies = [];
     bullets = [];
     spaceshipX = gameArea.canvas.width / 2 - 32;
     spaceshipY = gameArea.canvas.height - 64;
     gameArea.start();
     render();
-    movement();
+
+    isGameOver = false;
     updateGameArea(); 
    } else {
     document.write(`Your high score is ${highScore} \n See you again!`);
@@ -208,7 +201,7 @@ class shootBullet {
 
     this.update = function () {
       ctx = gameArea.context;
-      this.bulletY = this.bulletY - 20;
+      this.bulletY = this.bulletY - 25;
       ctx.drawImage(bulletImage, this.bulletX, this.bulletY);
     };
   }
@@ -227,14 +220,14 @@ function startBullet() {
 function gameIsOver() {
   for (let i = 0; i < enemies.length; i++) {
     let enemy = enemies[i];
-    if (enemy.enemyY >= 650) {
+    if (enemy.enemyY >= 700) {
       return (isGameOver = true);
     } else if (
-      spaceshipX >= enemy.enemyX - 50 &&
-      spaceshipX <= enemy.enemyX + 50 &&
-      spaceshipY >= enemy.enemyY - 50 &&
-      spaceshipY <= enemy.enemyY + 50
-    ) {
+      spaceshipX >= enemy.enemyX -20 &&
+      spaceshipX <= enemy.enemyX &&
+      spaceshipY >= enemy.enemyY -20&&
+      spaceshipY <= enemy.enemyY 
+          ) {
       return (isGameOver = true);
     }
   }
@@ -247,3 +240,16 @@ function gameIsOver() {
 //idea - credit : like : so I can store likes??
 
 //canvas is a drawing tool so I can't just remove an object...
+
+
+// function fasterEnemy(){
+//   let speed = 1500;
+//   if(score<10){
+//     speed = 1500;
+//   }else if(score>=10 && score<20){
+//     speed = 1000; 
+//   }else if(score>=20 && score<30){
+//     speed = 500;
+//   }
+//   return speed;
+// }
