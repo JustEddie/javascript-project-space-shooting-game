@@ -191,6 +191,7 @@ function replay() {
     updateGameArea(); 
    } else {
     document.write(`Your highest score is ${highScore} \n See you again!`);
+    gameArea.context.drawImage(gameOverImage, 0, 150, 400, 300);
   }
 }
 
@@ -262,7 +263,7 @@ function gameIsOver() {
 // }
 function copyScore() {
   /* Get the text field */
-  let copyText = document.getElementById("enterName");
+  let copyText = document.getElementById("typeName");
 
   /* Select the text field */
   copyText.select();
