@@ -24,8 +24,7 @@ let dx = 20;
 let dy = 20;
 
 //load image ...
-//maybe  https://pixelencounter.com/Api/Monsters
-// later oop concepts ? object class
+
 let backgroundImage, spaceshipImage, bulletImage, enemyImage, gameOverImage;
 
 //use jpeg instead of png..
@@ -72,17 +71,7 @@ function render() {
   drawScore();
 }
 
-// function main() {
-//   //how often? 1 sec?
-//   render();
-//   requestAnimationFrame(main);
-// }
 
-// main();
-
-//set 1 move
-
-//2d array
 //keypress spaceship move.. eventlistner...
 function movement() {
   document.addEventListener("keydown", (event) => {
@@ -116,7 +105,7 @@ class generateEnemies {
     };
   }
 }
-// let interval = setInterval(generateEnemy, 1500);
+
 let enemies = [];
 let enemy;
 function startEnemy() {
@@ -171,10 +160,7 @@ function updateGameArea() {
     replay();
   }
 }
-// let playAgain = document.createElement("button");
-// playAgain.innerHTML = "Play Again!"
-// //if highsocre == worldHighScore : New High Score! Your Name ?, submit json
-// document.body.insertBefore(playAgain,gameArea.canvas);
+
 function replay() {
   let result = confirm(`Your high score is : ${highScore} \n Play again?`);
   if (result) {
@@ -213,9 +199,7 @@ function startBullet() {
   bullets.push(bullet);
 }
 
-//game over : when enemy reach canvas height, when enemy reach spaceship
-//show high score and game over image
-//high score.. json?
+
 
 //game over
 function gameIsOver() {
@@ -234,44 +218,11 @@ function gameIsOver() {
   }
 }
 
-//score board
-//high score board .. every enemy dead add score
-//how can I store highest score ever with nick name input??
 
-//idea - credit : like : so I can store likes??
-
-//canvas is a drawing tool so I can't just remove an object...
-
-
-// function fasterEnemy(){
-//   let speed = 1500;
-//   if(score<10){
-//     speed = 1500;
-//   }else if(score>=10 && score<20){
-//     speed = 1000; 
-//   }else if(score>=20 && score<30){
-//     speed = 500;
-//   }
-//   return speed;
-// }
-
-//share score funciton
-// function shareScore(){
-//   let copyText = document.getElementById("shareScoreMessage");
-
-//   copyText.
-// }
 function copyScore() {
-  /* Get the text field */
   let copyText = document.getElementById("typeName");
-
-  /* Select the text field */
   copyText.select();
-  // copyText.setSelectionRange(0, 99999); /* For mobile devices */
-
-   /* Copy the text inside the text field */
   navigator.clipboard.writeText(`${copyText.value}'s highest score is ${highScore}`);
 
-  /* Alert the copied text */
   alert(`Copied the text:  ${copyText.value}'s highest score is ${highScore}`);
 }
