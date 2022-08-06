@@ -7,10 +7,16 @@
     <title>Space Shooting Game</title>
     <link rel="stylesheet" href="styles.css"
   </head>
-  <body>
+  <body onload = "getScores(listScores)">
     <h3>Eddie's Space Shooting Game!</h3>
     <script src="index.js"></script>
     <input type="text" value="Type your name" id="typeName" />
     <button onclick="copyScore()">Copy high score</button>
+    <div>
+      <h3>High Scores</h3>
+      <div id="error"></div>
+      <ol id="highScores"></ol>
+      <input id="lowScore" type="hidden">
+    </div>
   </body>
 </html>

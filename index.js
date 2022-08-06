@@ -226,3 +226,35 @@ function copyScore() {
 
   alert(`Copied the text:  ${copyText.value}'s highest score is ${highScore}`);
 }
+
+//read highScores.json with fetch api
+
+const errors = document.getElementById("error");
+
+function getScores (callback){
+  let file = "highScores.json";
+  fetch(file, {cache: 'no-cache'})
+  .then(function(response){
+    if (response.status !== 200){
+      errors.innerHTML = response.status;
+    }
+    response.json().then(function(data){
+      let scores = JSON.stringify(data);
+      console.log(scores);
+      callback(scores);
+    });
+  })
+  .catch(function(err){
+    errors.innerHTML = err;
+  })
+}
+
+//display high score list
+
+//high score list
+fetch("http://localhost:3000/highScores",{
+  method:"POST",
+  headers:{
+    ""
+  }
+})
