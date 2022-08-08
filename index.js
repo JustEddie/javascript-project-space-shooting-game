@@ -282,6 +282,8 @@ function copyScore() {
 //   .then(obj => {})
 //   .catch(error => console.log(error));
 // }
+let scoreList = [];
+
 function giveScore(){
   let req = new XMLHttpRequest();
   req.onreadystatechange = () => {
@@ -290,9 +292,14 @@ function giveScore(){
     }
   };
 
-  let scoreList = [];
-  scoreList.push(getScores());
+  req.open("PUT", "https://api.jsonbin.io/v3/b/62f11530e13e6063dc711d75", true);
+  req.setRequestHeader("Content-Type", "application/json");
+  req.setRequestHeader("X-Bin-Meta", "false");
+  req.setRequestHeader("X-Master-Key", "$2b$10$VKdcRBQESJacscHA.KEvAu/9DwRa7TCggShqNxqFltXvl3ofaibI6");
 
+  scoreList.push((JSON.stringify(getScores())));
+  
+  console.log(scoreList);
   let copyText = document.getElementById("typeName");
 
   const individualHS = {
@@ -302,13 +309,7 @@ function giveScore(){
  };
   scoreList.push(individualHS);
   console.log(scoreList);
-  //req.open("POST", "https://api.jsonbin.io/v3/b", true);
-
-  req.open("PUT", "https://api.jsonbin.io/v3/b/62f11530e13e6063dc711d75", true);
-  req.setRequestHeader("Content-Type", "application/json");
-  req.setRequestHeader("X-Master-Key", "$2b$10$VKdcRBQESJacscHA.KEvAu/9DwRa7TCggShqNxqFltXvl3ofaibI6");
   req.send(JSON.stringify(scoreList));
-  //req.send('{"sample": "Hello Wdddorld"}');
 }
 
 function getScores() {
@@ -322,5 +323,6 @@ function getScores() {
   
   req.open("GET", "https://api.jsonbin.io/v3/b/62f11530e13e6063dc711d75", true);
   req.setRequestHeader("X-Master-Key", "$2b$10$VKdcRBQESJacscHA.KEvAu/9DwRa7TCggShqNxqFltXvl3ofaibI6");
+  req.setRequestHeader("X-Bin-Meta", "false");
   req.send();
 }
