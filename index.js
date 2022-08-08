@@ -157,6 +157,7 @@ function updateGameArea() {
     clearInterval(gameArea.interval);
     gameArea.context.drawImage(gameOverImage, 0, 150, 400, 300);
     // clearInterval(gameArea.interval);
+    postScore(highScore);
     replay();
   }
 }
@@ -262,9 +263,30 @@ function copyScore() {
 // //display high score list
 
 // //high score list
-// fetch("http://localhost:3000/highScores",{
-//   method:"POST",
-//   headers:{
-//     ""
-//   }
-// })
+function postScore(highScore){
+  fetch("http://localhost:3000/highScores",{
+    method:"PUT",
+    headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json"
+    },
+    body: JSON.stringify(highScore)
+  })
+  .then(response => response.json())
+  .then(obj => {})
+  .catch(err => console.log("update failed: ", JSON.stringify(err.message)));
+};
+
+function showScore(){
+  fetch("http://localhost:3000/highScores",{
+    method:"PUT",
+    headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json"
+    },
+    body: JSON.stringify(highScore)
+  })
+  .then(response => response.json())
+  .then(obj => {})
+  .catch(err => console.log("update failed: ", JSON.stringify(err.message)));
+}
