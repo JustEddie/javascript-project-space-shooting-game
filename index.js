@@ -220,13 +220,7 @@ function gameIsOver() {
 }
 
 
-function copyScore() {
-  let copyText = document.getElementById("typeName");
-  copyText.select();
-  navigator.clipboard.writeText(`${copyText.value}'s highest score is ${highScore}`);
 
-  alert(`Copied the text:  ${copyText.value}'s highest score is ${highScore}`);
-}
 
 
 
@@ -263,30 +257,70 @@ function copyScore() {
 // //display high score list
 
 // //high score list
-function postScore(highScore){
-  fetch("http://localhost:3000/highScores",{
-    method:"PUT",
-    headers:{
-      "Content-Type":"application/json",
-      "Accept":"application/json"
-    },
-    body: JSON.stringify(highScore)
-  })
-  .then(response => response.json())
-  .then(obj => {})
-  .catch(err => console.log("update failed: ", JSON.stringify(err.message)));
-};
 
-function showScore(){
-  fetch("http://localhost:3000/highScores",{
-    method:"PUT",
-    headers:{
-      "Content-Type":"application/json",
-      "Accept":"application/json"
-    },
-    body: JSON.stringify(highScore)
-  })
-  .then(response => response.json())
-  .then(obj => {})
-  .catch(err => console.log("update failed: ", JSON.stringify(err.message)));
+
+
+function copyScore() {
+  let copyText = document.getElementById("typeName");
+  copyText.select();
+  navigator.clipboard.writeText(`${copyText.value}'s highest score is ${highScore}`);
+
+  alert(`Copied the text:  ${copyText.value}'s highest score is ${highScore}`);
+}
+
+// function giveScore(){
+//   fetch("https://api.jsonbin.io/v3/b/62f11530e13e6063dc711d75",{
+//     method:"PUT",
+//     headers:{
+//       "X-Master-Key":"$2b$10$VKdcRBQESJacscHA.KEvAu/9DwRa7TCggShqNxqFltXvl3ofaibI6",
+//       "Content-Type":"application/json",
+//       "Accept":"application/json"
+//     },
+//     body: JSON.stringify(highScore)
+//   })
+//   .then(response => response.json())
+//   .then(obj => {})
+//   .catch(error => console.log(error));
+// }
+function giveScore(){
+  let req = new XMLHttpRequest();
+  req.onreadystatechange = () => {
+    if (req.readyState == XMLHttpRequest.DONE) {
+      console.log(req.responseText);
+    }
+  };
+
+  let scoreList = [];
+  scoreList.push(getScores());
+
+  let copyText = document.getElementById("typeName");
+
+  const individualHS = {
+    "id":Date.now(),
+    "name":copyText.value,
+    "highScore":highScore
+ };
+  scoreList.push(individualHS);
+  console.log(scoreList);
+  //req.open("POST", "https://api.jsonbin.io/v3/b", true);
+
+  req.open("PUT", "https://api.jsonbin.io/v3/b/62f11530e13e6063dc711d75", true);
+  req.setRequestHeader("Content-Type", "application/json");
+  req.setRequestHeader("X-Master-Key", "$2b$10$VKdcRBQESJacscHA.KEvAu/9DwRa7TCggShqNxqFltXvl3ofaibI6");
+  req.send(JSON.stringify(scoreList));
+  //req.send('{"sample": "Hello Wdddorld"}');
+}
+
+function getScores() {
+  let req = new XMLHttpRequest();
+
+  req.onreadystatechange = () => {
+    if (req.readyState == XMLHttpRequest.DONE) {
+      console.log(req.responseText);
+    }
+  };
+  
+  req.open("GET", "https://api.jsonbin.io/v3/b/62f11530e13e6063dc711d75", true);
+  req.setRequestHeader("X-Master-Key", "$2b$10$VKdcRBQESJacscHA.KEvAu/9DwRa7TCggShqNxqFltXvl3ofaibI6");
+  req.send();
 }
