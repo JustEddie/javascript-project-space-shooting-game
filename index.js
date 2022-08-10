@@ -42,7 +42,7 @@ function loadImage() {
   enemyImage.src = "images/enemyImage.png";
 
   gameOverImage = new Image();
-  gameOverImage.src = "images/gameOver.jpeg";
+  gameOverImage.src = "images/gameover2.jpeg";
 }
 loadImage();
 //rendering image
@@ -69,6 +69,7 @@ function render() {
     );
   }
   drawScore();
+  updateScoreBoard()
 }
 
 //keypress spaceship move.. eventlistner...
@@ -162,9 +163,9 @@ function updateGameArea() {
     gameArea.clear();
     render();
     clearInterval(gameArea.interval);
-    gameArea.context.drawImage(gameOverImage, 0, 150, 400, 300);
+    //gameArea.context.drawImage(gameOverImage, 0, 150, 400, 300);
     // clearInterval(gameArea.interval);
-    postScore(highScore);
+    // postScore(highScore);
     replay();
   }
 }
@@ -184,8 +185,8 @@ function replay() {
     isGameOver = false;
     updateGameArea();
   } else {
-    document.write(`Your highest score is ${highScore} \n See you again!`);
-    gameArea.context.drawImage(gameOverImage, 0, 150, 400, 300);
+    // document.write(`Your highest score is ${highScore} \n See you again!`);
+    gameArea.context.drawImage(gameOverImage,0,30,400,700);
   }
 }
 
@@ -234,7 +235,7 @@ function gameIsOver() {
   }
 }
 
-
+//SCORE
 //Using jsonbin api, get and post socre history
 let scoreList = [];
 
