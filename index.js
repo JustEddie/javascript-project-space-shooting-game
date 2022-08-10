@@ -331,3 +331,16 @@ function getScores() {
   req.setRequestHeader("X-Bin-Meta", "false");
   req.send();
 }
+
+function topFiveScore(){
+  let topFive = [];
+
+    topFive = scoreList
+    .reduce((r, { name, scoreHistory }) => r.concat(
+        scoreHistory.map(highScore => ({ name, highScore }))
+    ), [])
+    .sort(({ highScore: a }, { highScore: b }) => b - a)
+    .slice(0, 5);
+
+  console.log(topFive);
+}
