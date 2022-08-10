@@ -234,61 +234,8 @@ function gameIsOver() {
   }
 }
 
-//Your app must be an HTML/CSS/JS frontend that accesses data from a public API.
-//All interactions between the client and the API should be handled asynchronously
-//and use JSON as the communication format.
-//Set up a JSON server in your project to persist your app's interactivity.
 
-//read highScores.json with fetch api
-
-// const errors = document.getElementById("error");
-
-// function getScores (callback){
-//   let file = "highScores.json";
-//   fetch(file, {cache: 'no-cache'})
-//   .then(function(response){
-//     if (response.status !== 200){
-//       errors.innerHTML = response.status;
-//     }
-//     response.json().then(function(data){
-//       let scores = JSON.stringify(data);
-//       console.log(scores);
-//       callback(scores);
-//     });
-//   })
-//   .catch(function(err){
-//     errors.innerHTML = err;
-//   })
-// }
-
-// //display high score list
-
-// //high score list
-
-function copyScore() {
-  let copyText = document.getElementById("typeName");
-  copyText.select();
-  navigator.clipboard.writeText(
-    `${copyText.value}'s highest score is ${highScore}`
-  );
-
-  alert(`Copied the text:  ${copyText.value}'s highest score is ${highScore}`);
-}
-
-// function giveScore(){
-//   fetch("https://api.jsonbin.io/v3/b/62f11530e13e6063dc711d75",{
-//     method:"PUT",
-//     headers:{
-//       "X-Master-Key":"$2b$10$VKdcRBQESJacscHA.KEvAu/9DwRa7TCggShqNxqFltXvl3ofaibI6",
-//       "Content-Type":"application/json",
-//       "Accept":"application/json"
-//     },
-//     body: JSON.stringify(highScore)
-//   })
-//   .then(response => response.json())
-//   .then(obj => {})
-//   .catch(error => console.log(error));
-// }
+//Using jsonbin api, get and post socre history
 let scoreList = [];
 
 function giveScore() {
@@ -306,8 +253,6 @@ function giveScore() {
     "X-Master-Key",
     "$2b$10$VKdcRBQESJacscHA.KEvAu/9DwRa7TCggShqNxqFltXvl3ofaibI6"
   );
-
-  //scoreList.push(req.responseText);
 
   console.log(scoreList);
   let copyText = document.getElementById("typeName");
@@ -344,7 +289,7 @@ function getScores() {
   req.send();
 }
 
-//이거 온로드에 넣고 탑파이브 오브젝트를 테이블 만들어서 넣고싶다
+//getting top 5 scores
 let topFive = [];
 function topFiveScore() {
   topFive = scoreList
@@ -353,4 +298,12 @@ function topFiveScore() {
 
   return topFive;
 }
-
+//top 5 scores on table
+function updateScoreBoard() {
+  topFiveScore();
+  let table = document.getElementById("scoreboard");
+  for (let i = 0; i < 5; i++) {
+    table.rows[i + 1].cells[1].innerHTML = topFive[i].name;
+    table.rows[i + 1].cells[2].innerHTML = topFive[i].highScore;
+  }
+}
