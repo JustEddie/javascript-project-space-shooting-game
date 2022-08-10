@@ -15,3 +15,6 @@
 * Debug issues
 * Refactor code
 
+### 💻 Used APIs 💻
+* <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas_API</a>
+* <a href="https://jsonbin.io/app/dashboard">JSONBin.io</a>
