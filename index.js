@@ -71,18 +71,25 @@ function render() {
   drawScore();
 }
 
-
 //keypress spaceship move.. eventlistner...
 function movement() {
   document.addEventListener("keydown", (event) => {
     if ((event.key === "ArrowLeft" || event.key === "a") && spaceshipX > 0) {
       spaceshipX = spaceshipX - dx;
     } else if (
-      (event.key === "ArrowRight" || event.key === "d") && spaceshipX < 330) {
+      (event.key === "ArrowRight" || event.key === "d") &&
+      spaceshipX < 330
+    ) {
       spaceshipX = spaceshipX + dx;
-    } else if ((event.key === "ArrowUp" ||event.key === "w") && spaceshipY > 0){
+    } else if (
+      (event.key === "ArrowUp" || event.key === "w") &&
+      spaceshipY > 0
+    ) {
       spaceshipY = spaceshipY - dy;
-    } else if ((event.key === "ArrowDown" ||event.key === "s") && spaceshipY < 630) {
+    } else if (
+      (event.key === "ArrowDown" || event.key === "s") &&
+      spaceshipY < 630
+    ) {
       spaceshipY = spaceshipY + dy;
     }
     if (event.code === "Space") {
@@ -100,8 +107,8 @@ class generateEnemies {
 
     this.update = function () {
       ctx = gameArea.context;
-      this.enemyY = this.enemyY + 0.5+0.1*(score);
-      ctx.drawImage(enemyImage, 0,0,64,64,this.enemyX, this.enemyY,30,30);
+      this.enemyY = this.enemyY + 0.5 + 0.1 * score;
+      ctx.drawImage(enemyImage, 0, 0, 64, 64, this.enemyX, this.enemyY, 30, 30);
     };
   }
 }
@@ -133,7 +140,7 @@ function updateGameArea() {
       if (
         bullet.bulletX >= enemy.enemyX - 32 &&
         bullet.bulletX <= enemy.enemyX + 32 &&
-        bullet.bulletY >= enemy.enemyY -32&&
+        bullet.bulletY >= enemy.enemyY - 32 &&
         bullet.bulletY <= enemy.enemyY + 32
       ) {
         score = score + 1;
@@ -175,8 +182,8 @@ function replay() {
     render();
 
     isGameOver = false;
-    updateGameArea(); 
-   } else {
+    updateGameArea();
+  } else {
     document.write(`Your highest score is ${highScore} \n See you again!`);
     gameArea.context.drawImage(gameOverImage, 0, 150, 400, 300);
   }
@@ -190,7 +197,17 @@ class shootBullet {
     this.update = function () {
       ctx = gameArea.context;
       this.bulletY = this.bulletY - 25;
-      ctx.drawImage(bulletImage,0,0,64,64, this.bulletX, this.bulletY,30,30);
+      ctx.drawImage(
+        bulletImage,
+        0,
+        0,
+        64,
+        64,
+        this.bulletX,
+        this.bulletY,
+        30,
+        30
+      );
     };
   }
 }
@@ -200,8 +217,6 @@ function startBullet() {
   bullets.push(bullet);
 }
 
-
-
 //game over
 function gameIsOver() {
   for (let i = 0; i < enemies.length; i++) {
@@ -209,26 +224,18 @@ function gameIsOver() {
     if (enemy.enemyY >= 700) {
       return (isGameOver = true);
     } else if (
-      spaceshipX >= enemy.enemyX -20 &&
+      spaceshipX >= enemy.enemyX - 20 &&
       spaceshipX <= enemy.enemyX &&
-      spaceshipY >= enemy.enemyY -20&&
-      spaceshipY <= enemy.enemyY 
-          ) {
+      spaceshipY >= enemy.enemyY - 20 &&
+      spaceshipY <= enemy.enemyY
+    ) {
       return (isGameOver = true);
     }
   }
 }
 
-
-
-
-
-
-
-
-
-//Your app must be an HTML/CSS/JS frontend that accesses data from a public API. 
-//All interactions between the client and the API should be handled asynchronously 
+//Your app must be an HTML/CSS/JS frontend that accesses data from a public API.
+//All interactions between the client and the API should be handled asynchronously
 //and use JSON as the communication format.
 //Set up a JSON server in your project to persist your app's interactivity.
 
@@ -258,12 +265,12 @@ function gameIsOver() {
 
 // //high score list
 
-
-
 function copyScore() {
   let copyText = document.getElementById("typeName");
   copyText.select();
-  navigator.clipboard.writeText(`${copyText.value}'s highest score is ${highScore}`);
+  navigator.clipboard.writeText(
+    `${copyText.value}'s highest score is ${highScore}`
+  );
 
   alert(`Copied the text:  ${copyText.value}'s highest score is ${highScore}`);
 }
@@ -284,7 +291,7 @@ function copyScore() {
 // }
 let scoreList = [];
 
-function giveScore(){
+function giveScore() {
   let req = new XMLHttpRequest();
   req.onreadystatechange = () => {
     if (req.readyState == XMLHttpRequest.DONE) {
@@ -295,18 +302,21 @@ function giveScore(){
   req.open("PUT", "https://api.jsonbin.io/v3/b/62f11530e13e6063dc711d75", true);
   req.setRequestHeader("Content-Type", "application/json");
   req.setRequestHeader("X-Bin-Meta", "false");
-  req.setRequestHeader("X-Master-Key", "$2b$10$VKdcRBQESJacscHA.KEvAu/9DwRa7TCggShqNxqFltXvl3ofaibI6");
+  req.setRequestHeader(
+    "X-Master-Key",
+    "$2b$10$VKdcRBQESJacscHA.KEvAu/9DwRa7TCggShqNxqFltXvl3ofaibI6"
+  );
 
   //scoreList.push(req.responseText);
-  
+
   console.log(scoreList);
   let copyText = document.getElementById("typeName");
 
   const individualHS = {
-    "id":Date.now(),
-    "name":copyText.value,
-    "highScore":highScore
- };
+    id: Date.now(),
+    name: copyText.value,
+    highScore: highScore,
+  };
   scoreList.push(individualHS);
   console.log(scoreList);
   req.send(JSON.stringify(scoreList));
@@ -318,29 +328,29 @@ function getScores() {
   req.onreadystatechange = () => {
     if (req.readyState == XMLHttpRequest.DONE) {
       console.log(req.responseText);
-       JSON.parse(req.responseText).forEach(element => {
-
-        let ar = JSON.stringify(element).replace(/",\\/g,"");
+      JSON.parse(req.responseText).forEach((element) => {
+        let ar = JSON.stringify(element).replace(/",\\/g, "");
 
         scoreList.push(JSON.parse(ar));
-    })}};    
-  ;
-
+      });
+    }
+  };
   req.open("GET", "https://api.jsonbin.io/v3/b/62f11530e13e6063dc711d75", true);
-  req.setRequestHeader("X-Master-Key", "$2b$10$VKdcRBQESJacscHA.KEvAu/9DwRa7TCggShqNxqFltXvl3ofaibI6");
+  req.setRequestHeader(
+    "X-Master-Key",
+    "$2b$10$VKdcRBQESJacscHA.KEvAu/9DwRa7TCggShqNxqFltXvl3ofaibI6"
+  );
   req.setRequestHeader("X-Bin-Meta", "false");
   req.send();
 }
 
-function topFiveScore(){
-  let topFive = [];
-
-    topFive = scoreList
-    .reduce((r, { name, scoreHistory }) => r.concat(
-        scoreHistory.map(highScore => ({ name, highScore }))
-    ), [])
+//이거 온로드에 넣고 탑파이브 오브젝트를 테이블 만들어서 넣고싶다
+let topFive = [];
+function topFiveScore() {
+  topFive = scoreList
     .sort(({ highScore: a }, { highScore: b }) => b - a)
     .slice(0, 5);
 
-  console.log(topFive);
+  return topFive;
 }
+
