@@ -10,4 +10,5 @@
 <a href="https://medium.com/@skdpwls830"><img src="위에있는뱃지코드"/></a>
 <a href="skdpwls830@gmai.com"><img src="위에있는뱃지코드"/></a>
 
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=justeddie)](https://github.com/anuraghazra/github-readme-stats)
+
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=justeddie)](https://github.com/justeddie/github-readme-stats)
