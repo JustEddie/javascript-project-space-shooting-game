@@ -297,7 +297,7 @@ function giveScore(){
   req.setRequestHeader("X-Bin-Meta", "false");
   req.setRequestHeader("X-Master-Key", "$2b$10$VKdcRBQESJacscHA.KEvAu/9DwRa7TCggShqNxqFltXvl3ofaibI6");
 
-  scoreList.push((JSON.stringify(getScores())));
+  //scoreList.push(req.responseText);
   
   console.log(scoreList);
   let copyText = document.getElementById("typeName");
@@ -318,9 +318,14 @@ function getScores() {
   req.onreadystatechange = () => {
     if (req.readyState == XMLHttpRequest.DONE) {
       console.log(req.responseText);
-    }
-  };
-  
+       JSON.parse(req.responseText).forEach(element => {
+
+        let ar = JSON.stringify(element).replace(/",\\/g,"");
+
+        scoreList.push(JSON.parse(ar));
+    })}};    
+  ;
+
   req.open("GET", "https://api.jsonbin.io/v3/b/62f11530e13e6063dc711d75", true);
   req.setRequestHeader("X-Master-Key", "$2b$10$VKdcRBQESJacscHA.KEvAu/9DwRa7TCggShqNxqFltXvl3ofaibI6");
   req.setRequestHeader("X-Bin-Meta", "false");
